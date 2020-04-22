@@ -4,7 +4,7 @@
  * By Mykle1 added to by JamesAshford
  *
  */
-Module.register("MMM-LICE", {
+Module.register("MMM-LICE-MK2", {
 
     // Module config defaults.
     defaults: {
