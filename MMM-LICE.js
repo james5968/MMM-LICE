@@ -4,10 +4,10 @@
  * By Mykle1 added to by JamesAshford
  *
  */
-Module.register("MMM-LICE", {
 
-    // Module config defaults.
-    defaults: {
+
+// Module config defaults.
+defaults: {
         source: "GPB", // USD unless you upgrade from free plan
         symbols: "EUR", // Add in config file
         useHeader: false, // true if you want a header      
@@ -69,7 +69,7 @@ Module.register("MMM-LICE", {
         // timestamp
         var timestamp = document.createElement("div");
         timestamp.classList.add("small", "bright", "timestamp");
-        timestamp.innerHTML = "Rate as of " + moment.unix(LICE.timestamp).format('h:mm a') + " today";
+        timestamp.innerHTML = "Rate as of " + moment.unix(LICE.timestamp).format('h:mm a');
         wrapper.appendChild(timestamp);
 
 
@@ -86,7 +86,7 @@ Module.register("MMM-LICE", {
         // create row and column for Currency
         var Row = document.createElement("tr");
         var Column = document.createElement("th");
-        Column.classList.add("align-left", "small", "bright", "Currency");
+        Column.classList.add("align-left", "small", "bright", "Euro");
         Column.innerHTML = "Currency";
         Row.appendChild(Column);
 
