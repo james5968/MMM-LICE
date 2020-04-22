@@ -4,10 +4,10 @@
  * By Mykle1 added to by JamesAshford
  *
  */
+Module.register("MMM-LICE", {
 
-
-// Module config defaults.
-defaults: {
+    // Module config defaults.
+    defaults: {
         source: "GPB", // USD unless you upgrade from free plan
         symbols: "EUR", // Add in config file
         useHeader: false, // true if you want a header      
