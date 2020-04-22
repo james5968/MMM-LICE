@@ -1,7 +1,7 @@
 /* Magic Mirror
  * Module: MMM-LICE
  *
- * By Mykle1
+ * By Mykle1 added to by JamesAshford
  *
  */
 const NodeHelper = require('node_helper');
@@ -20,9 +20,9 @@ module.exports = NodeHelper.create({
             method: 'GET'
         }, (error, response, body) => {
             if (!error && response.statusCode == 200) {
-				var result = JSON.parse(body);
-			//	console.log(response.statusCode + result); // for checking
-                    this.sendSocketNotification('LICE_RESULT', result);
+                var result = JSON.parse(body);
+                //	console.log(response.statusCode + result); // for checking
+                this.sendSocketNotification('LICE_RESULT', result);
             }
         });
     },

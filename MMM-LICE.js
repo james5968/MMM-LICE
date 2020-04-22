@@ -1,23 +1,22 @@
 /* Magic Mirror
  * Module: MMM-LICE
  *
- * By Mykle1
+ * By Mykle1 added to by JamesAshford
  *
  */
 Module.register("MMM-LICE", {
 
     // Module config defaults.
     defaults: {
-		accessKey: "",       // Free account & API Access Key at currencylayer.com
-	    source: "USD",       // USD unless you upgrade from free plan
-		symbols: "",         // Add in config file
-        useHeader: false,    // true if you want a header      
-        header: "",          // Any text you want. useHeader must be true
+        source: "GPB", // USD unless you upgrade from free plan
+        symbols: "EUR", // Add in config file
+        useHeader: false, // true if you want a header      
+        header: "", // Any text you want. useHeader must be true
         maxWidth: "300px",
         animationSpeed: 3000,
         initialLoadDelay: 4250,
         retryDelay: 2500,
-        updateInterval: 45 * 60* 1000, // 45 min = 992 in a 31 day month (1000 free per month)
+        updateInterval: 45 * 60 * 1000, // 45 min = 992 in a 31 day month (1000 free per month)
 
     },
 
@@ -29,17 +28,17 @@ Module.register("MMM-LICE", {
         return ["moment.js"];
     },
 
-		
-	start: function() {
+
+    start: function() {
         Log.info("Starting module: " + this.name);
 
 
         //  Set locale.
-        this.url = "http://apilayer.net/api/live?access_key=" + this.config.accessKey + "&currencies=" + this.config.symbols + "&source=" + this.config.source + "&format=1";
+        this.url = "https://api.ratesapi.io/api/latest?base=GBP&symbols=EUR";
         this.LICE = {};
         this.scheduleUpdate();
     },
-	
+
 
     getDom: function() {
 
@@ -61,7 +60,7 @@ Module.register("MMM-LICE", {
         }
 
         var LICE = this.LICE;
-		
+
 
         var top = document.createElement("div");
         top.classList.add("list-row");
@@ -79,11 +78,11 @@ Module.register("MMM-LICE", {
         source.classList.add("small", "bright", "source");
         source.innerHTML = "Source Currency = " + this.config.source;
         wrapper.appendChild(source);
-        
-        
+
+
         // create table
-         var Table = document.createElement("table");
-            
+        var Table = document.createElement("table");
+
         // create row and column for Currency
         var Row = document.createElement("tr");
         var Column = document.createElement("th");
@@ -96,55 +95,55 @@ Module.register("MMM-LICE", {
         Rate.classList.add("align-left", "small", "bright", "Rate");
         Rate.innerHTML = "Rate";
         Row.appendChild(Rate);
-            
+
 
         Table.appendChild(Row);
         wrapper.appendChild(Table);
-        
-		
-		
-		// this gets the key from the key/pair of the element (hasOwnProperty)
-		for (var Key in LICE.quotes) {
-		if (LICE.quotes.hasOwnProperty(Key)) {
-	
-		
-	//// Learned this on jsfiddle. HOORAY!
-	//// This dynamically creates the div/tags for each element of LICE.quotes
-		var symbols = LICE.quotes;
-		for (var c in symbols) {
-		
-        var newElement = document.createElement("div");
-        newElement.classList.add("align-left", "xsmall", "bright", "symbol");
-        newElement.innerHTML += Key + ' &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp '+ LICE.quotes[Key]; // + " = " + symbols[c];
-		}
-	}
-            
-		wrapper.appendChild(newElement);
 
-	} // <-- closes key/pair loop
-	
+
+
+        // this gets the key from the key/pair of the element (hasOwnProperty)
+        for (var Key in LICE.quotes) {
+            if (LICE.quotes.hasOwnProperty(Key)) {
+
+
+                //// Learned this on jsfiddle. HOORAY!
+                //// This dynamically creates the div/tags for each element of LICE.quotes
+                var symbols = LICE.quotes;
+                for (var c in symbols) {
+
+                    var newElement = document.createElement("div");
+                    newElement.classList.add("align-left", "xsmall", "bright", "symbol");
+                    newElement.innerHTML += Key + ' &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp ' + LICE.quotes[Key]; // + " = " + symbols[c];
+                }
+            }
+
+            wrapper.appendChild(newElement);
+
+        } // <-- closes key/pair loop
+
         return wrapper;
-		
-}, // closes getDom
-    
-    
-    
-    
+
+    }, // closes getDom
+
+
+
+
     /////  Add this function to the modules you want to control with voice //////
 
     notificationReceived: function(notification, payload) {
         if (notification === 'HIDE_LICE') {
             this.hide();
-        }  else if (notification === 'SHOW_LICE') {
+        } else if (notification === 'SHOW_LICE') {
             this.show(1000);
         }
-            
+
     },
 
 
     processLICE: function(data) {
         this.LICE = data;
-	//	console.log(this.LICE);
+        //	console.log(this.LICE);
         this.loaded = true;
     },
 
