@@ -56,7 +56,16 @@ Module.register("MMM-LICE-MK2", {
             wrapper.appendChild(header);
         }
 
-        var LICE = this.LICE;
+        var script = document.createElement('script');
+        script.src = '//code.jquery.com/jquery-1.11.0.min.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+
+        $.getJSON("https://api.ratesapi.io/api/latest?base=GBP&symbols=EUR", function(data) {
+            var items = [];
+            $.each(data.rates, function(key, val) {
+                items.push(key + "," + val);
+            });
+        });
 
 
         var top = document.createElement("div");
@@ -90,7 +99,7 @@ Module.register("MMM-LICE-MK2", {
         // create row and column for Rate
         var Rates = document.createElement("th");
         Rates.classList.add("align-left", "small", "bright", "Rates");
-        Rates.innerHTML = "Rate";
+        Rates.innerHTML = "Rates" + items[0];
         Row.appendChild(Rates);
 
 
@@ -128,39 +137,5 @@ Module.register("MMM-LICE-MK2", {
 
     /////  Add this function to the modules you want to control with voice //////
 
-    notificationReceived: function(notification, payload) {
-        if (notification === 'HIDE_LICE') {
-            this.hide();
-        } else if (notification === 'SHOW_LICE') {
-            this.show(1000);
-        }
 
-    },
-
-
-    processLICE: function(data) {
-        this.LICE = data;
-        //	console.log(this.LICE);
-        this.loaded = true;
-    },
-
-    scheduleUpdate: function() {
-        setInterval(() => {
-            this.getLICE();
-        }, this.config.updateInterval);
-        this.getLICE(this.config.initialLoadDelay);
-    },
-
-    getLICE: function() {
-        this.sendSocketNotification('GET_LICE', this.url);
-    },
-
-    socketNotificationReceived: function(notification, payload) {
-        if (notification === "LICE_RESULT") {
-            this.processLICE(payload);
-
-            this.updateDom(this.config.animationSpeed);
-        }
-        this.updateDom(this.config.initialLoadDelay);
-    },
 });
