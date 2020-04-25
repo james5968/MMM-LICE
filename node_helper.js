@@ -16,7 +16,7 @@ module.exports = NodeHelper.create({
 
     getLICE: function(url) {
         request({
-            url: url,
+            url: "https://api.ratesapi.io/api/latest?base=GBP&symbols=EUR",
             method: 'GET'
         }, (error, response, body) => {
             if (!error && response.statusCode == 200) {

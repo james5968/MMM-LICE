@@ -14,7 +14,7 @@ Module.register("MMM-LICE-MK2", {
         animationSpeed: 3000,
         initialLoadDelay: 4250,
         retryDelay: 2500,
-        updateInterval: 45 * 60 * 1000, // 45 min = 992 in a 31 day month (1000 free per month)
+        updateInterval: 500 * 60 * 1000, // 45 min = 992 in a 31 day month (1000 free per month)
 
     },
 
@@ -32,7 +32,6 @@ Module.register("MMM-LICE-MK2", {
 
 
         //  Set locale.
-        this.url = "https://api.ratesapi.io/api/latest?base=GBP&symbols=EUR";
         this.LICE = {};
         this.scheduleUpdate();
     },
@@ -67,15 +66,15 @@ Module.register("MMM-LICE-MK2", {
         // timestamp
         var timestamp = document.createElement("div");
         timestamp.classList.add("small", "bright", "timestamp");
-        timestamp.innerHTML = "Rate as of " + moment.unix(LICE.timestamp).format('h:mm a');
+        timestamp.innerHTML = "Rate as of " + moment.unix(LICE.date).format('h:mm a');
         wrapper.appendChild(timestamp);
 
 
         // source currency
-        var source = document.createElement("div");
-        source.classList.add("small", "bright", "source");
-        source.innerHTML = "Source Currency = " + this.config.source;
-        wrapper.appendChild(source);
+        var base = document.createElement("div");
+        base.classList.add("small", "bright", "base");
+        base.innerHTML = "Base Currency = GBP";
+        wrapper.appendChild(base);
 
 
         // create table
@@ -89,10 +88,10 @@ Module.register("MMM-LICE-MK2", {
         Row.appendChild(Column);
 
         // create row and column for Rate
-        var Rate = document.createElement("th");
-        Rate.classList.add("align-left", "small", "bright", "Rate");
-        Rate.innerHTML = "Rate";
-        Row.appendChild(Rate);
+        var Rates = document.createElement("th");
+        Rates.classList.add("align-left", "small", "bright", "Rates");
+        Rates.innerHTML = "Rate";
+        Row.appendChild(Rates);
 
 
         Table.appendChild(Row);
